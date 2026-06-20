@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head><title>{{ title }}</title></head>
+<body>
+  <h1>{{ title }}</h1>
+  <p><a href="/">Back</a></p>
+  <p><b>Input:</b> {{ account_no }}</p>
+  <p><b>SQL used:</b></p>
+  <pre>{{ query }}</pre>
+  {% if error %}
+    <h3>Error</h3><pre>{{ error }}</pre>
+  {% endif %}
+  <h2>Result</h2>
+  {% if rows %}
+  <table border="1" cellpadding="8">
+    <tr><th>Account No / User ID</th><th>Holder Name / Password</th><th>Balance</th></tr>
+    {% for row in rows %}
+    <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>No records found.</p>
+  {% endif %}
+</body>
+</html>

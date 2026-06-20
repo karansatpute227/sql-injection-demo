@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><title>SQL Injection Account Lab</title></head>
+<body>
+  <h1>SQL Injection Account Balance Lab</h1>
+  <p>Normal account number examples: <b>1001</b>, <b>1002</b>, <b>1003</b></p>
+  <h2>Vulnerable Version</h2>
+  <form method="post" action="/vulnerable">
+    <input name="account_no" placeholder="Enter account number" size="80">
+    <button type="submit">Check Balance</button>
+  </form>
+  <h2>Secure Version</h2>
+  <form method="post" action="/secure">
+    <input name="account_no" placeholder="Enter account number" size="80">
+    <button type="submit">Check Balance</button>
+  </form>
+  <hr>
+  <h3>Attack Payload for Vulnerable Route</h3>
+  <pre>' UNION SELECT user_id, password, 0 FROM users --</pre>
+</body>
+</html>

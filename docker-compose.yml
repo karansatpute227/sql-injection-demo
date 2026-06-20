@@ -1,0 +1,8 @@
+services:
+  sql-injection-lab:
+    build: .
+    container_name: sql-injection-account-lab
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_PATH=/app/bank.db
