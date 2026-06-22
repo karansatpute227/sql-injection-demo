@@ -362,7 +362,7 @@ Computer Engineering Student
 
 Cyber Security | DevOps | Cloud Computing
 
-GitHub: https://github.com/YOUR_USERNAME
+GitHub: [https://github.com/YOUR_USERNAME](https://github.com/karansatpute227/sql-injection-demo)
 
 ---
 
