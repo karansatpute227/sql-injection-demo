@@ -1,46 +1,45 @@
-# 🛡️ SQL Injection Account Balance Lab
+# 🛡️ SQL Injection Demo Lab
 
-> **A hands-on cybersecurity lab demonstrating SQL Injection using a vulnerable application and its secure implementation with parameterized queries.**
+> An educational cybersecurity lab demonstrating **SQL Injection (UNION Attack)** and its **prevention using parameterized queries (Prepared Statements)**.
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)
-![Flask](https://img.shields.io/badge/Flask-3.0-black?logo=flask)
+![Flask](https://img.shields.io/badge/Flask-3.x-black?logo=flask)
+![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker)
 ![SQLite](https://img.shields.io/badge/SQLite-Database-blue?logo=sqlite)
-![Docker](https://img.shields.io/badge/Docker-Container-blue?logo=docker)
-![License](https://img.shields.io/badge/License-Educational-green)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 ## 📖 Overview
 
-This project demonstrates one of the **OWASP Top 10** vulnerabilities—**SQL Injection**.
+This project is designed for students and cybersecurity beginners to understand:
 
-The application contains **two implementations**:
+- ✅ How SQL Injection works
+- ✅ How attackers exploit vulnerable SQL queries
+- ✅ How sensitive data can be exposed
+- ✅ How Prepared Statements prevent SQL Injection
+- ✅ How to run secure applications inside Docker
 
-- 🔴 **Vulnerable Version** – Uses dynamic SQL queries, allowing SQL Injection.
-- 🟢 **Secure Version** – Uses prepared statements (parameterized queries) to prevent SQL Injection.
-
-The objective is to understand:
-
-- How SQL Injection works
-- How attackers exploit vulnerable applications
-- How prepared statements completely eliminate this vulnerability
+> **Educational Purpose Only**
+>
+> This project should only be used in a local lab environment.
 
 ---
 
 # 📂 Project Structure
 
 ```
-sql-injection-account-lab/
+sql-injection-demo/
 │
-├── app.py                  # Flask Application
-├── Dockerfile              # Docker Image Configuration
-├── docker-compose.yml      # Docker Compose Configuration
-├── requirements.txt        # Python Dependencies
-├── database.db             # SQLite Database (Created Automatically)
+├── app.py
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── database.db
 │
 ├── templates/
-│   ├── index.html          # Home Page
-│   └── result.html         # Result Page
+│   ├── index.html
+│   └── result.html
 │
 └── README.md
 ```
@@ -49,29 +48,25 @@ sql-injection-account-lab/
 
 # 🚀 Features
 
-✅ Search Account Balance
-
-✅ Demonstrate SQL Injection Attack
-
-✅ Demonstrate SQL Injection Prevention
-
-✅ Dockerized Application
-
-✅ SQLite Database
-
-✅ Flask Web Application
+- Vulnerable SQL query
+- Secure SQL query
+- SQLite Database
+- Account Balance Lookup
+- UNION SQL Injection Demo
+- Prepared Statement Example
+- Docker Support
+- Docker Compose Support
 
 ---
 
-# 🛠️ Tech Stack
+# 🛠 Technologies
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend |
-| Flask | Web Framework |
-| SQLite | Database |
-| Docker | Containerization |
-| HTML | Frontend |
+- Python
+- Flask
+- SQLite
+- HTML
+- Docker
+- Docker Compose
 
 ---
 
@@ -79,50 +74,39 @@ sql-injection-account-lab/
 
 Install:
 
-- Docker
+- Docker Desktop
 - Docker Compose
+- Git
 
 Verify installation
 
 ```bash
 docker --version
 docker compose version
+git --version
 ```
 
 ---
 
-# ▶️ Running the Project
-
-## Clone Repository
+# 📥 Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/sql-injection-account-lab.git
-```
+git clone https://github.com/karansatpute227/sql-injection-demo.git
 
-Move into the project
-
-```bash
-cd sql-injection-account-lab
+cd sql-injection-demo
 ```
 
 ---
 
-## Build Docker Image
+# 🐳 Run using Docker
+
+Build the Docker image
 
 ```bash
 docker compose up --build
 ```
 
-Docker will automatically:
-
-- Build the image
-- Install dependencies
-- Create the SQLite database
-- Start Flask Server
-
----
-
-## Open Browser
+When the build completes, open
 
 ```
 http://localhost:5000
@@ -130,11 +114,9 @@ http://localhost:5000
 
 ---
 
-# 🧪 Testing the Application
+# 🧪 Normal Test
 
-## ✅ Normal Test
-
-Input
+Enter
 
 ```
 1001
@@ -144,81 +126,63 @@ Expected Output
 
 ```
 Account Number : 1001
-
-Account Holder : Karan
-
-Balance : ₹25,000
+Holder Name    : Karan
+Balance         : 25000.0
 ```
 
 ---
 
-# 🔴 SQL Injection Attack
+# 💥 SQL Injection Demonstration
 
-Open
+Open the **Vulnerable Version**
 
-```
-http://localhost:5000/vulnerable
-```
-
-Enter
+Input
 
 ```sql
-' UNION SELECT user_id, password, 0 FROM users --
+' UNION SELECT user_id,password,0 FROM users --
 ```
 
 Expected Output
 
 ```
-admin
-admin@123
-
-karan
-karan123
-
-testuser
-testpass
+admin      admin123
+karan      karan123
+testuser   testpass
 ```
+
+The vulnerable application executes a dynamically constructed SQL query, allowing attacker-controlled input to change the query logic. :contentReference[oaicite:1]{index=1}
 
 ---
 
-## Generated Vulnerable Query
+# 🔒 SQL Injection Prevention
+
+Open the **Secure Version**
+
+Enter the same payload
 
 ```sql
-SELECT account_no, holder_name, balance
-FROM accounts
-WHERE account_no=''
-UNION
-SELECT user_id,password,0
-FROM users --'
-```
-
-Because user input becomes part of the SQL statement, the attacker can retrieve sensitive information.
-
----
-
-# 🟢 SQL Injection Prevention
-
-Open
-
-```
-http://localhost:5000/secure
-```
-
-Use the same payload
-
-```sql
-' UNION SELECT user_id, password, 0 FROM users --
+' UNION SELECT user_id,password,0 FROM users --
 ```
 
 Expected Output
 
 ```
-No records found.
+No records found
+```
+
+The secure route uses parameterized queries (prepared statements), which ensure user input is treated as data rather than executable SQL. This is the recommended mitigation approach. :contentReference[oaicite:2]{index=2}
+
+---
+
+# 🔍 Vulnerable Query
+
+```python
+query = "SELECT account_no, holder_name, balance FROM accounts WHERE account_no='" + account_no + "'"
 ```
 
 ---
 
-## Secure Query
+# ✅ Secure Query
 
 ```python
 conn.execute(
@@ -227,16 +191,20 @@ conn.execute(
 )
 ```
 
-Prepared statements separate **SQL code** from **user input**, preventing SQL Injection attacks.
-
 ---
 
 # 🐳 Docker Commands
 
-Build and Run
+Build
 
 ```bash
-docker compose up --build
+docker compose build
+```
+
+Run
+
+```bash
+docker compose up
 ```
 
 Run in Background
@@ -245,19 +213,19 @@ Run in Background
 docker compose up -d
 ```
 
-View Logs
-
-```bash
-docker compose logs -f
-```
-
-Stop Containers
+Stop
 
 ```bash
 docker compose down
 ```
 
-Rebuild Image
+View Logs
+
+```bash
+docker compose logs
+```
+
+Rebuild
 
 ```bash
 docker compose up --build
@@ -265,92 +233,66 @@ docker compose up --build
 
 ---
 
-# 📸 Demo
+# 📤 Push to GitHub
 
-## Normal User
+```bash
+git init
 
-```
-Input:
-1001
+git add .
 
-↓
+git commit -m "Initial SQL Injection Demo"
 
-Account Found
+git branch -M main
 
-Account Holder
+git remote add origin https://github.com/karansatpute227/sql-injection-demo.git
 
-Balance
-```
-
----
-
-## Attacker
-
-```
-Payload
-
-↓
-
-UNION Injection
-
-↓
-
-User IDs + Passwords Displayed
+git push -u origin main
 ```
 
 ---
 
-## Secure Version
+# 🧑‍💻 Testing by Another User
 
+Clone the repository
+
+```bash
+git clone https://github.com/karansatpute227/sql-injection-demo.git
+
+cd sql-injection-demo
+
+docker compose up --build
 ```
-Payload
 
-↓
+Then verify:
 
-Prepared Statement
+✅ Normal account lookup
 
-↓
+✅ SQL Injection succeeds on Vulnerable page
 
-No Records Found
-```
+✅ SQL Injection fails on Secure page
 
 ---
 
-# 🔒 Learning Outcomes
+# 📚 Learning Outcomes
 
-After completing this lab, you will understand:
+After completing this project you will understand:
 
 - SQL Injection
-- UNION-based SQL Injection
-- Vulnerable SQL Queries
+- UNION Based SQL Injection
+- Dynamic SQL Queries
 - Prepared Statements
-- Parameterized Queries
-- Secure Database Programming
-- Dockerized Web Applications
-
----
-
-# 📚 OWASP Mapping
-
-This project demonstrates:
-
-- OWASP Top 10
-- Injection Vulnerabilities
-- SQL Injection
 - Secure Coding Practices
+- Docker Containerization
+- Flask Web Development
+- SQLite Database Integration
 
 ---
 
-# 📌 Future Improvements
+# ⚠ Disclaimer
 
-- MySQL Support
-- PostgreSQL Support
-- Login Authentication
-- Blind SQL Injection Demo
-- Error-based SQL Injection Demo
-- Time-based SQL Injection Demo
-- Docker Hub Image
-- GitHub Actions CI/CD
+This project is intended **only for educational purposes** in a controlled environment.
+
+Do **not** deploy vulnerable code to production systems or use these techniques against systems you do not own or have explicit authorization to test.
 
 ---
 
@@ -358,30 +300,8 @@ This project demonstrates:
 
 **Karan Satpute**
 
-Computer Engineering Student
-
-Cyber Security | DevOps | Cloud Computing
-
-GitHub: [https://github.com/YOUR_USERNAME](https://github.com/karansatpute227/sql-injection-demo)
+- GitHub: https://github.com/karansatpute227
 
 ---
 
-# ⭐ Support
-
-If you found this project useful:
-
-⭐ Star the repository
-
-🍴 Fork the project
-
-📢 Share it with others
-
----
-
-## ⚠️ Disclaimer
-
-This project is created **strictly for educational purposes** to demonstrate SQL Injection vulnerabilities and their prevention.
-
-Do **NOT** deploy this application in a production environment or use these techniques against systems without explicit authorization.
-
-Unauthorized testing or exploitation of computer systems is illegal and unethical.
+⭐ If you found this project helpful, consider giving it a **Star** on GitHub!
